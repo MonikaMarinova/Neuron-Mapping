@@ -1,132 +1,95 @@
-#include <QCoreApplication>
-#include <bitset>
 #include <iostream>
+#include <bitset>
+#include <math.h>
 
 using namespace std;
 
-void  makeArray();
-void makeSet(u_int32_t arr[], int arraySize);
-void bitwiseOperators(u_int32_t arr[], int arraySize);
-void printSet(std::bitset<32> b);
+void odd (unsigned int array[32]);
+void even (unsigned int array[32]);
+void print (unsigned int array[32]);
+void binToDec(unsigned int array[32]);
+
+unsigned int s, num = 0;
+unsigned int array[32];
+unsigned int output[32];
 
 
 int main()
 {
-    makeArray();
+    unsigned int input;
+    cout << "Enter data(integer): " << endl;
+    cin >> input;
+
+    s=32;
+    bitset<32> bSet(input);
+    for(int i = s-1; i >= 0; i--){
+        array[i] = bSet[i];
+    }
+
+    string choice;
+
+    for(int i=s; i >= 0; i/=2){
+        cin >> choice;
+        if(choice == "Odd"){
+            odd(array);
+        }
+
+        if(choice == "Even"){
+            even(array);
+        }
+        if(choice == "Game over!"){
+            binToDec(array);
+            break;
+        }
+    }
+
     return 0;
 }
 
-void   makeArray(){
-    int arraySize;
-    cout << "Enter size of the array you want to input: " << endl;
-    cin >> arraySize;
 
-    u_int32_t array[arraySize];
-
-    cout << "Enter the elements of the array: " << endl;
-    for(int index = 0; index < arraySize; index++){
-        cin >> array[index];
-    }
-
-
-    bitwiseOperators(array,arraySize);
-   //makeSet(array, arraySize);
-
-}
-
-void makeSet(u_int32_t arr[],int arraySize){
-    for(int index = 0; index < arraySize; index++){
-        std::bitset<32> bSet(arr[index]);
-        printSet(bSet);
-    }
-
-}
-
-
-void printSet(std::bitset<32> b){
-    for(int index=32; index >0; index--){
-            b[index] = !b[index];
-    }
-
-     cout << b << endl;
-}
-
-
-void bitwiseOperators(u_int32_t arr[], int arraySize){
-   char matrix[32][32];
-
-    for(int i=0; i < arraySize; i++){
-        for(u_int32_t check= 2147483648, j = 0; check > 0, j <= 32 ; check /= 2, j++){
-            if((arr[i] & check) == check )
-                matrix[i][j] = '1';
-                //cout << 1;
-            else
-                matrix[i][j] = '.';
-                //cout << '.';
-        }
-        // cout << '\n';
-    }
-
-    int flag =0;
-
-     for(int i=0; i<arraySize; i++){
-       for(int j=0; j<32; j++){
-           if(matrix[i][j] == '1'){
-               flag = 1;
-               if(matrix[i][j++] == '.'){
-                   matrix[i][j++] = '1';
-                   flag = 1;
-               }
-               if(matrix[i][j++] == '1')
-                   flag = 0;
-           }
-           else if(matrix[i][j] == '.'){
-               flag = 0;
-           }
+void odd (unsigned int arr[32]){
+   for(int i = s-1, j =0 ; i >= 0, j <= (s-1)/2; i--){
+       if(i%2 == 1){
+            output[j] = arr[i];
+            j++;
+            //cout<<i<<' '<<j<<endl;
        }
-     }
-
-          /*
-            if(flag == 1){
-              if(matrix[i][j++] == '.'){
-                  matrix[i][j++] = '1';
-                  flag = 1;
-              }
-              if(matrix[i][j++] == '1')
-                  flag = 0;
-          }
-           cout << flag << "  ";
-           cout << j << "   After" << endl;
-       }
-       cout << '\n';
-       cout << '\n';
-
-
-           if(matrix[i][j] == '1')
-               flag =1;
-           else
-               flag = 0;
-           if(matrix[i][j] == '.' && flag == 1){
-               matrix[i][j] = '1';
-               flag = 1;
-           }
-           if(matrix[i][j] == '1' && flag == 1)
-               flag = 0;
-
-           cout << flag << "  ";
-           cout << j << "   After" << endl;
-
-     }
    }
-   */
-
-
-
-     for(int i=0; i<arraySize; i++){
-         for(int j=0; j<32; j++)
-             cout<<matrix[i][j];
-         cout<<'\n';
-     }
-
+   for(int i =0; i <= s; i++){
+        array[i] = output[i];
+   }
+   s /= 2;
 }
 
+void even (unsigned int arr[32]){
+   for(int i = s-1, j =0 ; i >= 0, j <= (s-1)/2; i--){
+       if(i%2 == 0){
+            output[j] = arr[i];
+            j++;
+          //  cout<<i<<' '<<j<<endl;
+       }
+   }
+   for(int i =0; i <= s; i++){
+        array[i] = output[i];
+   }
+   s /= 2;
+}
+
+
+
+void print (unsigned int array[32]){
+    for(int i = s -1; i >= 0; i--)
+        cout << array[i];
+    cout << endl;
+}
+
+void binToDec(unsigned int array[32]){
+    int cnt = 0;
+    for(int i =0; i <= s; i++){
+        if(array[i] == 1){
+            cnt++;
+            num += pow(2,i);
+        }
+   }
+   cout << num << '     ' << cnt << endl;
+}
