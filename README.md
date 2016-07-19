@@ -1,4 +1,3 @@
 # Neuron-Mapping
-Neuron Mapping luxoft internship
-Bitwise operators
+Neuron Mapping luxoft internship - Bitwise operators
 
